@@ -1,35 +1,29 @@
-#get_gradebook.py
-#Structure of data is basically a dicrinoary but in the last item
-#it has a list of dictoinaries. 
-
-import requests
 import json
+import requests
+import statistics
 
-print("REQUESTING SOME DATA FROM THE INTERNET...")
-
-request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/master/data/gradebook.json"
-
-print("URL: ", request_url)
-
+request_url = "https://raw.githubusercontent.com/prof-rossetti/georgetown-opim-243-201901/master/data/gradebook.json"
 response = requests.get(request_url)
-print(type(response))
-#print(dir(response))
-print(response.status_code)
-#print(response.text)
-print(type(response.text))  #>dicrinary?
-
 parsed_response = json.loads(response.text)
-print(type(parsed_response))    #>list
 
-breakpoint()
+grades = [student["finalGrade"] for student in parsed_response["students"]]
 
-#google keys on dictionaries
-#print(parsed_response)
-#dir(parsed_response)
-#parsed_response.keys()
-#parsed_response.values()
-#parsed_response.items()
-#parsed_response["students"][0]
-#grades = [student["finalGrade"] for student in parsed_response["students"]]
-#import statistics 
-#statistics.mean(grades)
+print(grades)
+print("Student get the following scores: " + str(grades))
+
+avg_grade = statistics.mean(grades)
+print("THE AVERAGE GRADE IS: " + str(avg_grade))
+
+
+#l = [90, 80, 70]
+#print(statistics.mean(l)) #>80
+
+#Use a list comprehension instead of this long line
+# grades = []
+#for student in parsed_response["students"]:
+#    #print(type(student), student)
+#    grades.append(student["finalGrade"])
+#
+#breakpoint()
+
+
